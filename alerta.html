@@ -2,30 +2,38 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Simulacion Controlada</title>
+    <title>Simulación Controlada</title>
 </head>
-<body style="background-color:#b30000; color:#ffffff; text-align:center; font-family:'Segoe UI', Tahoma, sans-serif; padding-top:12%;">
+<body style="background-color:#b30000; color:#ffffff; text-align:center; font-family:'Segoe UI', Tahoma, sans-serif; padding-top:6%;">
     <div style="max-width:900px; margin:auto; padding:20px;">
-        <h1 style="font-size:5rem; margin-bottom:20px; font-weight:900; text-transform:uppercase;">Simulacion Controlada</h1>
-        <br/>
+        <h1 style="font-size:4rem; margin-bottom:30px; font-weight:900; text-transform:uppercase; line-height: 1.1;">
+            &iexcl;&iexcl;Ca&iacute;ste en una simulaci&oacute;n de phishing controlado!!
+        </h1>
+        
+        <div style="margin-bottom: 40px;">
+            <img src="image_5.png" alt="Icono Alerta Phishing" style="width: 150px; height: auto;">
+        </div>
+        
         <div style="background-color:#ffffff; color:#333333; display:inline-block; padding:40px 60px; border-radius:20px; box-shadow: 0 15px 35px rgba(0,0,0,0.4);">
-            <p style="font-size:1.8rem; margin:0;">Contacta al equipo de Seguridad de la Informacion a:</p>
+            <p style="font-size:1.8rem; margin:0;">Contacta al equipo de Seguridad de la Informaci&oacute;n a:</p>
             <p style="font-size:2.2rem; margin-top:15px; color:#b30000; font-weight:bold;">correo.sospechoso@usc.com.co</p>
         </div>
     </div>
 
     <script>
-        // 1. Capturamos los datos que manda el CMD
+        // 1. Lee los parametros que mandó el CMD (pc y user)
         const parametros = new URLSearchParams(window.location.search);
         const pc = parametros.get('pc') || 'Desconocido';
         const user = parametros.get('user') || 'Desconocido';
 
-        // 2. Construimos la URL hacia tu Webhook
-        const webhookUrl = `https://webhook.site/54074462-476e-48cc-97a5-c3227630e8dc?pc=${encodeURIComponent(pc)}&user=${encodeURIComponent(user)}`;
+        // 2. Construye el enlace de tu CanaryToken (¡AHORA CON HTTPS!)
+        const canaryUrl = `https://canarytokens.com/static/qgzp57ff0xf263mzxwwdies66/payments.js?pc=${pc}&user=${user}`;
 
-        // 3. Forzamos el envío de datos de forma silenciosa
-        fetch(webhookUrl, { mode: 'no-cors' })
-            .catch(error => console.log('El envío silencioso ocurrió.'));
+        // 3. Envía la métrica silenciosamente pidiendo una imagen invisible
+        const img = new Image();
+        img.style.display = 'none'; // La hacemos invisible
+        img.src = canaryUrl;
+        document.body.appendChild(img); // Esto OBLIGA al navegador a disparar la alerta
     </script>
 </body>
 </html>
