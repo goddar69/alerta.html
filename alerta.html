@@ -20,20 +20,24 @@
         </div>
     </div>
 
-    <script>
+<script>
         // 1. Lee los parametros que mandó el CMD (pc y user)
         const parametros = new URLSearchParams(window.location.search);
         const pc = parametros.get('pc') || 'Desconocido';
         const user = parametros.get('user') || 'Desconocido';
 
-        // 2. Construye el enlace de tu CanaryToken (¡AHORA CON HTTPS!)
+        // 2. Construye el enlace de tu CanaryToken
         const canaryUrl = `https://canarytokens.com/static/qgzp57ff0xf263mzxwwdies66/payments.js?pc=${pc}&user=${user}`;
 
-        // 3. Envía la métrica silenciosamente pidiendo una imagen invisible
-        const img = new Image();
-        img.style.display = 'none'; // La hacemos invisible
-        img.src = canaryUrl;
-        document.body.appendChild(img); // Esto OBLIGA al navegador a disparar la alerta
+        // 3. LA MANERA 100% SEGURA: API Fetch con modo 'no-cors'
+        // Esto obliga al navegador a disparar la peticion HTTP GET sin importar qué tipo de archivo sea
+        fetch(canaryUrl, { 
+            method: 'GET',
+            mode: 'no-cors', 
+            cache: 'no-store' 
+        })
+        .then(() => console.log("Ping enviado exitosamente."))
+        .catch(err => console.error("El firewall o navegador bloqueo la salida:", err));
     </script>
 </body>
 </html>
